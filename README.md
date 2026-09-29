@@ -1,5 +1,7 @@
 # PromptStrike
 
+**English** · [Español](README.es.md)
+
 > A vulnerability scanner for LLM applications — like `nmap`, but for prompt injection and jailbreaks.
 
 **Status:** in development — Phase 0 of 6 (foundations).
@@ -37,13 +39,13 @@ Each piece is independent and talks to the others through a clear interface. Cha
 
 | Phase | Deliverable | Status |
 |---|---|---|
-| 0 | Project setup + a deliberately vulnerable bot (`vuln_bot`) | 🔄 In progress |
-| 1 | Attack corpus in YAML, validated | ⏳ |
-| 2 | Multi-provider adapters (local, Ollama, API) | ⏳ |
-| 3 | Runner + `promptstrike scan` CLI | ⏳ |
-| 4 | Oracle: canary tokens + LLM-as-judge, with measured accuracy | ⏳ |
-| 5 | Professional report mapped to OWASP LLM Top 10 | ⏳ |
-| 6 | Defenses + ASR before/after, compared against Garak | ⏳ |
+| 0 | Project setup + a deliberately vulnerable bot (`vuln_bot`) | In progress |
+| 1 | Attack corpus in YAML, validated | Planned |
+| 2 | Multi-provider adapters (local, Ollama, API) | Planned |
+| 3 | Runner + `promptstrike scan` CLI | Planned |
+| 4 | Oracle: canary tokens + LLM-as-judge, with measured accuracy | Planned |
+| 5 | Professional report mapped to OWASP LLM Top 10 | Planned |
+| 6 | Defenses + ASR before/after, compared against Garak | Planned |
 
 Full plan: [ROADMAP.md](ROADMAP.md) (in Spanish).
 
