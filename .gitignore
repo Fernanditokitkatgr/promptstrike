@@ -1,0 +1,24 @@
+# Entorno virtual (se regenera con la lista de dependencias)
+.venv/
+
+# Secretos: claves de API. NUNCA se suben.
+.env
+.env.*
+!.env.example
+
+# Ficheros que genera Python al ejecutar
+__pycache__/
+*.py[cod]
+
+# Cachés de herramientas (pytest, ruff)
+.pytest_cache/
+.ruff_cache/
+
+# Notas privadas de aprendizaje (solo para nosotros)
+APUNTES.md
+PROGRESO.md
+CLAUDE.md
+
+# Ficheros del sistema operativo
+Thumbs.db
+.DS_Store
