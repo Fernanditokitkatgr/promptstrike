@@ -4,7 +4,7 @@
 
 > Un scanner de vulnerabilidades para aplicaciones LLM — como `nmap`, pero para prompt injection y jailbreaks.
 
-**Estado:** en desarrollo — Fase 0 de 6 (cimientos).
+**Estado:** en desarrollo — Fase 0 de 7 (cimientos).
 
 ## Qué hace
 
@@ -40,12 +40,13 @@ Cada pieza es independiente y se comunica con las demás a través de una interf
 | Fase | Entregable | Estado |
 |---|---|---|
 | 0 | Montaje del proyecto + un bot vulnerable a propósito (`vuln_bot`) | En curso |
-| 1 | Catálogo de ataques en YAML, validado | Pendiente |
+| 1 | Catálogo de ataques en YAML, validado, con injection indirecta | Pendiente |
 | 2 | Adaptadores para varios proveedores (local, Ollama, API) | Pendiente |
 | 3 | Runner + CLI `promptstrike scan` | Pendiente |
 | 4 | Oráculo: canary tokens + LLM como juez, con su precisión medida | Pendiente |
 | 5 | Informe profesional mapeado al OWASP LLM Top 10 | Pendiente |
 | 6 | Defensas + ASR antes/después, comparado con Garak | Pendiente |
+| 7 | Atacante automático que reescribe los ataques fallidos (PAIR simplificado) | Pendiente |
 
 Plan completo: [ROADMAP.md](ROADMAP.md).
 

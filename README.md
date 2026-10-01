@@ -4,7 +4,7 @@
 
 > A vulnerability scanner for LLM applications — like `nmap`, but for prompt injection and jailbreaks.
 
-**Status:** in development — Phase 0 of 6 (foundations).
+**Status:** in development — Phase 0 of 7 (foundations).
 
 ## What it does
 
@@ -40,12 +40,13 @@ Each piece is independent and talks to the others through a clear interface. Cha
 | Phase | Deliverable | Status |
 |---|---|---|
 | 0 | Project setup + a deliberately vulnerable bot (`vuln_bot`) | In progress |
-| 1 | Attack corpus in YAML, validated | Planned |
+| 1 | Attack corpus in YAML, validated, including indirect injection | Planned |
 | 2 | Multi-provider adapters (local, Ollama, API) | Planned |
 | 3 | Runner + `promptstrike scan` CLI | Planned |
 | 4 | Oracle: canary tokens + LLM-as-judge, with measured accuracy | Planned |
 | 5 | Professional report mapped to OWASP LLM Top 10 | Planned |
 | 6 | Defenses + ASR before/after, compared against Garak | Planned |
+| 7 | Automated attacker that rewrites failed attacks (simplified PAIR) | Planned |
 
 Full plan: [ROADMAP.md](ROADMAP.md) (in Spanish).
 
