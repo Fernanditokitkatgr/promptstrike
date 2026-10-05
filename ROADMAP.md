@@ -123,7 +123,7 @@ contarlo, no lo has entendido.
 - **Entregable:** `reports/*.md` con formato profesional + salida bonita en terminal (`rich`).
 
 ### Fase 6 — Defensa y cierre (el bucle completo) · 3 semanas
-- **Construyes:** mitigaciones en el `vuln_bot` (delimitadores, instrucciones defensivas, filtros) y vuelves a escanear para MEDIR cuánto baja el Attack Success Rate, **con repeticiones e intervalo de confianza** para que la mejora no sea suerte. Cierre: pasar **Garak** contra el mismo `vuln_bot` y comparar sus resultados con los tuyos.
+- **Construyes:** una **segunda versión endurecida del `vuln_bot`** (delimitadores, instrucciones defensivas, filtros), conservando la vulnerable, y vuelves a escanear para MEDIR cuánto baja el Attack Success Rate, **con repeticiones e intervalo de confianza** para que la mejora no sea suerte. Cierre: pasar **Garak** contra el mismo `vuln_bot` y comparar sus resultados con los tuyos.
 - **Python que aprendes:** `pytest` a fondo, refactor, documentar.
 - **Seguridad que aprendes:** defensa real, y lo más importante — **medir** que una mitigación funciona (antes X% ASR, después Y%).
 - **Entrevista:** "Encontraste la vuln, ¿cómo la mitigas y cómo demuestras que la mitigación sirve?"
