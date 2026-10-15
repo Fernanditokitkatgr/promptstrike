@@ -10,4 +10,4 @@ def load_suite(ruta):
 ataques = load_suite("corpus/system-prompt-leak.yaml")
 
 for ataque in ataques:
-    print(ataque["name"], "→", ataque["payload"])
+    print(ataque["id"], "→", ataque["payload"])
