@@ -1,6 +1,6 @@
-import yaml
-from pydantic import BaseModel
 from typing import Literal
+from pydantic import BaseModel
+import yaml
 
 
 DirectTechnique = Literal[
@@ -43,12 +43,13 @@ def load_suite(ruta):
     return ataques
 
 
-rutas = [
-    "corpus/indirect-injection.yaml",
-    "corpus/instruction-override.yaml",
-    "corpus/system-prompt-leak.yaml",]
-
-for ruta in rutas:
-    ataques = load_suite(ruta)
-    for ataque in ataques:
-        print(ataque.id, "→", ataque.technique)
+if __name__ == "__main__":
+    rutas = [
+        "corpus/indirect-injection.yaml",
+        "corpus/instruction-override.yaml",
+        "corpus/system-prompt-leak.yaml",
+    ]
+    for ruta in rutas:
+        ataques = load_suite(ruta)
+        for ataque in ataques:
+            print(ataque.id, "→", ataque.technique)
