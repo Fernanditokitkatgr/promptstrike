@@ -1,11 +1,21 @@
 import yaml
 from pydantic import BaseModel
+from typing import Literal
+
+
+DirectTechnique = Literal[
+    "repetition", "translation", "obfuscation", "authority",
+    "direct-override", "identity-override", "instruction-update",
+    "conditional-trigger", "echo",
+]
+
+IndirectTechnique = Literal["hidden-instruction", "fake-email"]
 
 
 class IndirectAttack(BaseModel):
     id: str
     name: str
-    technique: str
+    technique: IndirectTechnique
     user_request: str
     document: str
 
@@ -13,7 +23,7 @@ class IndirectAttack(BaseModel):
 class DirectAttack(BaseModel):
     id: str
     name: str
-    technique: str
+    technique: DirectTechnique
     payload: str
 
 
