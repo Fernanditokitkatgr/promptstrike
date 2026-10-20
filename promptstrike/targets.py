@@ -1,7 +1,14 @@
 from vuln_bot.bot import fake_llm
+from abc import ABC, abstractmethod
 
 
-class LocalTarget:
+class Target(ABC):
+    @abstractmethod
+    def send(self, message):
+        pass
+
+
+class LocalTarget(Target):
     def __init__(self, system_prompt):
         self.system_prompt = system_prompt
 
