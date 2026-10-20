@@ -97,6 +97,7 @@ contarlo, no lo has entendido.
 - **Seguridad que aprendes:** por qué las herramientas pro (PyRIT, Garak, promptfoo) son multi-provider.
 - **Entrevista:** "¿Cómo diseñarías una herramienta de red teaming que no dependa de un solo proveedor?"
 - **Entregable:** cambiar de target = cambiar un YAML de config, sin tocar la lógica. Tests con un target falso. El `vuln_bot` gana un **modo "resume este documento"**, para poder probar la injection indirecta.
+- **Cloud:** `APITarget` contra un LLM en la nube (OpenAI/Anthropic, o Azure OpenAI / AWS Bedrock). Se ataca **nuestro propio `vuln_bot` usando ese modelo por debajo**, respetando los términos de uso del proveedor; nunca chatbots de terceros. Comparar el ASR con llama3.2. Control de costes (pocas repeticiones, límite de gasto) y la clave en variable de entorno.
 
 ### Fase 3 — El Runner + la CLI · 3 semanas
 - **Construyes:** el motor que coge cada payload del corpus y lo manda al target vía el adapter, **N veces por payload** (los LLMs no son deterministas). Y el comando `promptstrike scan` con **Typer** y `pyproject.toml`.
@@ -104,6 +105,7 @@ contarlo, no lo has entendido.
 - **Seguridad que aprendes:** API security, autenticación, rate limits, gestión de secretos (nunca hardcodear keys); por qué un ataque que falla 7 veces puede funcionar a la 8ª.
 - **Entrevista:** "¿Cómo gestionas credenciales en una herramienta de seguridad?" · "¿Cómo tratas el no determinismo de un LLM al evaluarlo?"
 - **Entregable:** `promptstrike scan` lanza el corpus entero contra el `vuln_bot`, con repeticiones y temperatura configurables, y guarda las respuestas.
+- **CI:** GitHub Actions ejecuta `pytest` (y `ruff`) en cada push. El ✅ verde queda visible en el repo.
 
 ### Fase 4 — El Oráculo ⭐ (la joya) · 3–4 semanas
 - **Construyes:** el juez que decide, por cada respuesta, si el ataque tuvo éxito, con su evidencia. Tres piezas:
@@ -121,6 +123,7 @@ contarlo, no lo has entendido.
 - **Seguridad que aprendes:** reporting profesional — la habilidad que pide casi toda oferta y casi nadie entrena; taxonomías OWASP y MITRE ATLAS.
 - **Entrevista:** "Enséñame un informe tuyo de una vulnerabilidad." (literalmente enseñas el fichero)
 - **Entregable:** `reports/*.md` con formato profesional + salida bonita en terminal (`rich`).
+- **Estructura (corta):** resumen ejecutivo de media página para quien no es técnico · severidad por hallazgo (crítica/alta/media/baja, con criterio escrito) · alcance y metodología en pocas líneas (qué se probó, modelo, repeticiones y qué NO se probó).
 
 ### Fase 6 — Defensa y cierre (el bucle completo) · 3 semanas
 - **Construyes:** una **segunda versión endurecida del `vuln_bot`** (delimitadores, instrucciones defensivas, filtros), conservando la vulnerable, y vuelves a escanear para MEDIR cuánto baja el Attack Success Rate, **con repeticiones e intervalo de confianza** para que la mejora no sea suerte. Cierre: pasar **Garak** contra el mismo `vuln_bot` y comparar sus resultados con los tuyos.
@@ -174,6 +177,7 @@ Cada sub-proyecto: su propio diseño, su propio ciclo. No se diseña hoy lo que 
   política de uso responsable, comparativa con Garak, post por fase. Añadidos Pydantic, Typer y ruff al stack.
 - **2026-10-01** — Para estar al día con el estado del arte de 2026: suite de injection indirecta en la Fase 1 (+ modo documento
   del `vuln_bot` en la Fase 2) y nueva **Fase 7: atacante automático** (PAIR simplificado). Duración: ~5,5–6,5 meses.
+- **2026-10-19** — Cloud y CI, porque las ofertas lo piden: `APITarget` contra un LLM en la nube (Fase 2; se ataca el `vuln_bot` propio con ese modelo debajo, nunca apps de terceros) y GitHub Actions con los tests (Fase 3). Sin desplegar el scanner en la nube: no lo necesita (YAGNI).
 
 ---
 
