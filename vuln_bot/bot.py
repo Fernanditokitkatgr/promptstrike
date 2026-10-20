@@ -29,11 +29,11 @@ def ollama_llm(system_prompt, user_message):
     return datos["message"]["content"]
 
 
-while True:
-    mensaje_usuario = input("tú: ")
+if __name__ == "__main__":
+    while True:
+        mensaje_usuario = input("tú: ")
 
-    if mensaje_usuario.lower() == "salir":
-        break
-
-    respuesta = ollama_llm(SYSTEM_PROMPT, mensaje_usuario)
-    print("Asistente:", respuesta)
+        if mensaje_usuario.lower() == "salir":
+            break
+        respuesta = ollama_llm(SYSTEM_PROMPT, mensaje_usuario)
+        print("Asistente:", respuesta)
