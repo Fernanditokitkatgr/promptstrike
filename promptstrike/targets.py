@@ -22,3 +22,12 @@ class OllamaTarget(Target):
 
     def send(self, message):
         return ollama_llm(self.system_prompt, message)
+
+
+def create_target(nombre, system_prompt):
+    if nombre == "local":
+        return LocalTarget(system_prompt)
+    elif nombre == "ollama":
+        return OllamaTarget(system_prompt)
+    else:
+        raise ValueError("Invalid target name")
