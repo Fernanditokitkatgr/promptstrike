@@ -33,7 +33,6 @@ def test_ollama_target_sends_prompt_and_message(monkeypatch):
     llamadas = []
 
     def ollama_falso(system_prompt, user_message):
-        print("🧍 Casilla 1:", system_prompt, "| Casilla 2:", user_message)
         llamadas.append((system_prompt, user_message))
         return "RESPUESTA FALSA"
 

@@ -1,5 +1,5 @@
 from promptstrike.loader import load_suite
-from promptstrike.targets import LocalTarget, OllamaTarget, create_target
+from promptstrike.targets import create_target
 from vuln_bot.bot import SYSTEM_PROMPT
 import yaml
 

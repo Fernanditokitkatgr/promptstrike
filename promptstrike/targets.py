@@ -30,4 +30,5 @@ def create_target(nombre, system_prompt):
     elif nombre == "ollama":
         return OllamaTarget(system_prompt)
     else:
-        raise ValueError("Invalid target name")
+        raise ValueError("Target desconocido: '" + nombre +
+                         "'. Valores válidos: 'local', 'ollama'")
