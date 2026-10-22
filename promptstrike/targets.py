@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from vuln_bot.bot import fake_llm, ollama_llm
+from vuln_bot.bot import fake_llm, ollama_llm, fake_llm_document
 
 
 class Target(ABC):
@@ -22,6 +22,15 @@ class OllamaTarget(Target):
 
     def send(self, message):
         return ollama_llm(self.system_prompt, message)
+
+
+class DocumentTarget(Target):
+    def __init__(self, system_prompt, document):
+        self.system_prompt = system_prompt
+        self.document = document
+
+    def send(self, message):
+        return fake_llm_document(self.system_prompt, message, self.document)
 
 
 def create_target(nombre, system_prompt):

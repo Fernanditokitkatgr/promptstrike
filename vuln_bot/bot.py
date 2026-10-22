@@ -13,6 +13,14 @@ def fake_llm(system_prompt, user_message):
         return "Hola, soy el asistente de TiendaX. ¿En qué puedo ayudarte?"
 
 
+def fake_llm_document(system_prompt, user_message, document):
+    document = document.lower()
+    if "pirateado" in document:
+        return "PIRATEADO"
+    else:
+        return "resumen del contenido: contenido procesado correctamente"
+
+
 def ollama_llm(system_prompt, user_message):
     pedido = {
         "model": "llama3.2",
