@@ -1,5 +1,6 @@
 import pytest
 from promptstrike.targets import LocalTarget, Target, OllamaTarget
+from promptstrike.targets import create_target
 
 
 def test_local_target_leaks_system_prompt_on_repeat():
@@ -46,3 +47,18 @@ def test_ollama_target_sends_prompt_and_message(monkeypatch):
 
     assert respuesta == "RESPUESTA FALSA"
     assert llamadas == [(system_prompt, mensaje)]
+
+
+def test_create_target_returns_local():
+    target = create_target("local", "prompt")
+    assert isinstance(target, LocalTarget)
+
+
+def test_create_target_returns_ollama():
+    target = create_target("ollama", "prompt")
+    assert isinstance(target, OllamaTarget)
+
+
+def test_create_target_raises_error_for_unknown_target():
+    with pytest.raises(ValueError):
+        create_target("unknown", "prompt")
