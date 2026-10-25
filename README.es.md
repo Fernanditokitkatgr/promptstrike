@@ -4,7 +4,7 @@
 
 > Un scanner de vulnerabilidades para aplicaciones LLM — como `nmap`, pero para prompt injection y jailbreaks.
 
-**Estado:** en desarrollo — Fase 0 de 7 (cimientos).
+**Estado:** en desarrollo — Fase 2 de 7 (adaptadores de objetivo).
 
 ## Qué hace
 
@@ -14,6 +14,45 @@ Le apuntas a una aplicación basada en un LLM y PromptStrike:
 2. **Juzga** cada respuesta para decidir si el ataque ha funcionado, y guarda la evidencia.
 3. **Genera un informe** con cada hallazgo, su impacto, una mitigación y su categoría de OWASP LLM.
 4. **Mide** el porcentaje de ataques con éxito (Attack Success Rate, ASR) antes y después de aplicar defensas, para que una mitigación quede demostrada y no supuesta.
+
+Los pasos 2–4 están en la hoja de ruta; en "Qué funciona hoy" tienes lo que ya se ejecuta.
+
+## Qué funciona hoy
+
+- Un **bot de demostración vulnerable a propósito** (`vuln_bot`) con un secreto escondido en su system prompt (`SECRETO-42`), usado como objetivo de prácticas seguro.
+- Un **catálogo de ataques en YAML** repartido en tres suites — 13 ataques en total: `system-prompt-leak` (5), `instruction-override` (5, con un caso de "eco" pensado para hacer caer a un oráculo ingenuo en un falso positivo) e `indirect-injection` (3, órdenes escondidas dentro de un documento que el bot debe resumir).
+- Un **cargador del catálogo tipado** que valida cada ataque con modelos de Pydantic (`DirectAttack` / `IndirectAttack`) y listas de técnicas con `Literal`, de modo que un ataque mal formado o mal etiquetado falla de forma ruidosa.
+- **Adaptadores de objetivo tras una única interfaz** (la ABC `Target`): `LocalTarget` (bot determinista offline), `OllamaTarget` (modelos locales vía Ollama), `DocumentTarget` (injection indirecta a través de un documento) y `APITarget` (OpenAI, `gpt-4o-mini`), elegidos con una factoría `create_target` gobernada por `config.yaml` (`local | ollama | api`).
+- Un **script de escaneo** (`python -m promptstrike.scan`) que lanza la suite `system-prompt-leak` contra el objetivo configurado y la suite `indirect-injection` a través de `DocumentTarget`, imprimiendo la respuesta de cada ataque. Juzgar esas respuestas de forma automática es la Fase 4.
+- **14 tests unitarios que pasan**, cubriendo el cargador y los adaptadores de objetivo.
+
+## Puesta en marcha
+
+```bash
+# 1. Clona el repositorio
+git clone https://github.com/Fernanditokitkatgr/promptstrike.git
+cd promptstrike
+
+# 2. Crea y activa un entorno virtual (Python 3.13)
+python -m venv .venv
+.venv\Scripts\Activate.ps1      # Windows (PowerShell)
+# source .venv/bin/activate     # macOS / Linux
+
+# 3. Instala las dependencias
+pip install -r requirements.txt
+
+# 4. Ejecuta los tests
+python -m pytest
+
+# 5. Lanza un escaneo
+python -m promptstrike.scan
+```
+
+El escaneo lee `config.yaml`, que elige el objetivo:
+
+- `target: local` — se ejecuta totalmente offline contra el `vuln_bot` incluido (el valor por defecto; no necesita nada más).
+- `target: ollama` — necesita una instancia de [Ollama](https://ollama.com) en marcha.
+- `target: api` — necesita una `OPENAI_API_KEY` en un fichero `.env` en la raíz del repositorio.
 
 ## Por qué existe
 
@@ -39,9 +78,9 @@ Cada pieza es independiente y se comunica con las demás a través de una interf
 
 | Fase | Entregable | Estado |
 |---|---|---|
-| 0 | Montaje del proyecto + un bot vulnerable a propósito (`vuln_bot`) | En curso |
-| 1 | Catálogo de ataques en YAML, validado, con injection indirecta | Pendiente |
-| 2 | Adaptadores para varios proveedores (local, Ollama, API) | Pendiente |
+| 0 | Montaje del proyecto + un bot vulnerable a propósito (`vuln_bot`) | ✅ Hecho |
+| 1 | Catálogo de ataques en YAML, validado, con injection indirecta | ✅ Hecho |
+| 2 | Adaptadores para varios proveedores (local, Ollama, API) | 🚧 En curso |
 | 3 | Runner + CLI `promptstrike scan` | Pendiente |
 | 4 | Oráculo: canary tokens + LLM como juez, con su precisión medida | Pendiente |
 | 5 | Informe profesional mapeado al OWASP LLM Top 10 | Pendiente |
