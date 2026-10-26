@@ -4,20 +4,20 @@ from vuln_bot.bot import SYSTEM_PROMPT
 import yaml
 
 if __name__ == "__main__":
-    # --- Escaneo DIRECTO ---
+    # --- Direct scan ---
     print("=== SUITE: system-prompt-leak ===")
-    with open("config.yaml", encoding="utf-8") as fichero:
-        config = yaml.safe_load(fichero)
+    with open("config.yaml", encoding="utf-8") as file:
+        config = yaml.safe_load(file)
     target = create_target(config["target"], SYSTEM_PROMPT)
-    ataques = load_suite("corpus/system-prompt-leak.yaml")
-    for ataque in ataques:
-        respuesta = target.send(ataque.payload)
-        print(ataque.id, "→", respuesta)
+    attacks = load_suite("corpus/system-prompt-leak.yaml")
+    for attack in attacks:
+        response = target.send(attack.payload)
+        print(attack.id, "→", response)
 
-    # --- Escaneo INDIRECTO ---
+    # --- Indirect scan ---
     print("\n=== SUITE: indirect-injection ===")
-    ataques = load_suite("corpus/indirect-injection.yaml")
-    for ataque in ataques:
-        target = DocumentTarget(SYSTEM_PROMPT, ataque.document)
-        respuesta = target.send(ataque.user_request)
-        print(ataque.id, "→", respuesta)
+    attacks = load_suite("corpus/indirect-injection.yaml")
+    for attack in attacks:
+        target = DocumentTarget(SYSTEM_PROMPT, attack.document)
+        response = target.send(attack.user_request)
+        print(attack.id, "→", response)

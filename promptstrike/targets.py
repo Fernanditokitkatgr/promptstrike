@@ -44,23 +44,23 @@ class APITarget(Target):
         self.client = OpenAI()
 
     def send(self, message):
-        respuesta = self.client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": message},
             ],
         )
-        return respuesta.choices[0].message.content
+        return response.choices[0].message.content
 
 
-def create_target(nombre, system_prompt):
-    if nombre == "local":
+def create_target(target_name, system_prompt):
+    if target_name == "local":
         return LocalTarget(system_prompt)
-    elif nombre == "ollama":
+    elif target_name == "ollama":
         return OllamaTarget(system_prompt)
-    elif nombre == "api":
+    elif target_name == "api":
         return APITarget(system_prompt)
     else:
-        raise ValueError("Target desconocido: '" + nombre +
-                         "'. Valores válidos: 'local', 'ollama', 'api'")
+        raise ValueError("Unknown target: '" + target_name +
+                         "'. Valid values: 'local', 'ollama', 'api'")

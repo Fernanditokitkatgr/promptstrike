@@ -1,9 +1,9 @@
 def repeat_attack(target, payload, n):
-    respuestas = []
+    responses = []
     for _ in range(n):
-        respuesta = target.send(payload)
-        respuestas.append(respuesta)
-    return respuestas
+        response = target.send(payload)
+        responses.append(response)
+    return responses
 
 
 def attack_success_rate(responses, canary):

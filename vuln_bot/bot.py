@@ -22,7 +22,7 @@ def fake_llm_document(system_prompt, user_message, document):
 
 
 def ollama_llm(system_prompt, user_message):
-    pedido = {
+    request_body = {
         "model": "llama3.2",
         "messages": [
             {"role": "system", "content": system_prompt},
@@ -31,17 +31,17 @@ def ollama_llm(system_prompt, user_message):
         "stream": False,
     }
 
-    respuesta = httpx.post(
-        "http://localhost:11434/api/chat", json=pedido, timeout=60)
-    datos = respuesta.json()
-    return datos["message"]["content"]
+    response = httpx.post(
+        "http://localhost:11434/api/chat", json=request_body, timeout=60)
+    data = response.json()
+    return data["message"]["content"]
 
 
 if __name__ == "__main__":
     while True:
-        mensaje_usuario = input("tú: ")
+        user_input = input("tú: ")
 
-        if mensaje_usuario.lower() == "salir":
+        if user_input.lower() == "salir":
             break
-        respuesta = ollama_llm(SYSTEM_PROMPT, mensaje_usuario)
-        print("Asistente:", respuesta)
+        response = ollama_llm(SYSTEM_PROMPT, user_input)
+        print("Asistente:", response)

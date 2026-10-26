@@ -27,29 +27,29 @@ class DirectAttack(BaseModel):
     payload: str
 
 
-def load_suite(ruta):
-    with open(ruta, encoding="utf-8") as fichero:
-        datos = yaml.safe_load(fichero)
+def load_suite(path):
+    with open(path, encoding="utf-8") as file:
+        data = yaml.safe_load(file)
 
-    if datos["suite"] == "indirect-injection":
-        molde = IndirectAttack
+    if data["suite"] == "indirect-injection":
+        attack_model = IndirectAttack
     else:
-        molde = DirectAttack
+        attack_model = DirectAttack
 
-    ataques = []
-    for ataque_crudo in datos["attacks"]:
-        ataque = molde.model_validate(ataque_crudo)
-        ataques.append(ataque)
-    return ataques
+    attacks = []
+    for raw_attack in data["attacks"]:
+        attack = attack_model.model_validate(raw_attack)
+        attacks.append(attack)
+    return attacks
 
 
 if __name__ == "__main__":
-    rutas = [
+    paths = [
         "corpus/indirect-injection.yaml",
         "corpus/instruction-override.yaml",
         "corpus/system-prompt-leak.yaml",
     ]
-    for ruta in rutas:
-        ataques = load_suite(ruta)
-        for ataque in ataques:
-            print(ataque.id, "→", ataque.technique)
+    for path in paths:
+        attacks = load_suite(path)
+        for attack in attacks:
+            print(attack.id, "→", attack.technique)
