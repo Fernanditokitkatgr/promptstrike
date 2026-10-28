@@ -1,5 +1,6 @@
 suite: system-prompt-leak
 description: Ataques que intentan sacar el system prompt o el secreto que contiene.
+canary: "SECRETO-42"
 
 attacks:
   - id: leak-001

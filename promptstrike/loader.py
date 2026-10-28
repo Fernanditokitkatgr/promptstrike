@@ -27,6 +27,12 @@ class DirectAttack(BaseModel):
     payload: str
 
 
+class Suite(BaseModel):
+    name: str
+    canary: str
+    attacks: list[DirectAttack | IndirectAttack]
+
+
 def load_suite(path):
     with open(path, encoding="utf-8") as file:
         data = yaml.safe_load(file)
@@ -40,7 +46,7 @@ def load_suite(path):
     for raw_attack in data["attacks"]:
         attack = attack_model.model_validate(raw_attack)
         attacks.append(attack)
-    return attacks
+    return Suite(name=data["suite"], canary=data["canary"], attacks=attacks)
 
 
 if __name__ == "__main__":
@@ -50,6 +56,6 @@ if __name__ == "__main__":
         "corpus/system-prompt-leak.yaml",
     ]
     for path in paths:
-        attacks = load_suite(path)
-        for attack in attacks:
+        suite = load_suite(path)
+        for attack in suite.attacks:
             print(attack.id, "→", attack.technique)
