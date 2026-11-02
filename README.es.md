@@ -2,9 +2,11 @@
 
 [English](README.md) · **Español**
 
+[![tests](https://github.com/Fernanditokitkatgr/promptstrike/actions/workflows/tests.yml/badge.svg)](https://github.com/Fernanditokitkatgr/promptstrike/actions/workflows/tests.yml)
+
 > Un scanner de vulnerabilidades para aplicaciones LLM — como `nmap`, pero para prompt injection y jailbreaks.
 
-**Estado:** en desarrollo — Fase 2 de 7 (adaptadores de objetivo).
+**Estado:** en desarrollo — Fases 0–3 de 7 hechas (runner + CLI). Siguiente: Fase 4, el oráculo.
 
 ## Qué hace
 
@@ -23,8 +25,11 @@ Los pasos 2–4 están en la hoja de ruta; en "Qué funciona hoy" tienes lo que 
 - Un **catálogo de ataques en YAML** repartido en tres suites — 13 ataques en total: `system-prompt-leak` (5), `instruction-override` (5, con un caso de "eco" pensado para hacer caer a un oráculo ingenuo en un falso positivo) e `indirect-injection` (3, órdenes escondidas dentro de un documento que el bot debe resumir).
 - Un **cargador del catálogo tipado** que valida cada ataque con modelos de Pydantic (`DirectAttack` / `IndirectAttack`) y listas de técnicas con `Literal`, de modo que un ataque mal formado o mal etiquetado falla de forma ruidosa.
 - **Adaptadores de objetivo tras una única interfaz** (la ABC `Target`): `LocalTarget` (bot determinista offline), `OllamaTarget` (modelos locales vía Ollama), `DocumentTarget` (injection indirecta a través de un documento) y `APITarget` (OpenAI, `gpt-4o-mini`), elegidos con una factoría `create_target` gobernada por `config.yaml` (`local | ollama | api`).
-- Un **script de escaneo** (`python -m promptstrike.scan`) que lanza la suite `system-prompt-leak` contra el objetivo configurado y la suite `indirect-injection` a través de `DocumentTarget`, imprimiendo la respuesta de cada ataque. Juzgar esas respuestas de forma automática es la Fase 4.
-- **14 tests unitarios que pasan**, cubriendo el cargador y los adaptadores de objetivo.
+- Un **runner** que lanza cada ataque N veces —los LLMs no son deterministas, así que un solo intento no demuestra nada— y calcula el **porcentaje de éxito (ASR)** por ataque y por suite. El éxito se detecta con canary tokens (`SECRETO-42`, `PIRATEADO`) declarados en cada suite.
+- Una **CLI `promptstrike scan`** (Typer) que lanza las tres suites; `--target` y `--repeats` sustituyen los valores por defecto de `config.yaml`.
+- **19 tests** —unitarios para el cargador, los adaptadores y el runner (con las APIs externas simuladas) y uno de extremo a extremo de la CLI— que **GitHub Actions** ejecuta en cada push.
+
+Límites conocidos, a propósito por ahora: la comprobación del canary es una simple búsqueda de texto, así que una negativa que repite el canary cuenta como éxito (un falso positivo), y la suite `indirect-injection` todavía se lanza contra el bot simulado. Un juez de verdad es la Fase 4.
 
 ## Puesta en marcha
 
@@ -38,17 +43,19 @@ python -m venv .venv
 .venv\Scripts\Activate.ps1      # Windows (PowerShell)
 # source .venv/bin/activate     # macOS / Linux
 
-# 3. Instala las dependencias
-pip install -r requirements.txt
+# 3. Instala PromptStrike y sus dependencias
+python -m pip install -e .
 
 # 4. Ejecuta los tests
+python -m pip install pytest
 python -m pytest
 
-# 5. Lanza un escaneo
-python -m promptstrike.scan
+# 5. Lanza un escaneo (desde la carpeta del repositorio)
+promptstrike scan
+promptstrike scan --target ollama --repeats 10
 ```
 
-El escaneo lee `config.yaml`, que elige el objetivo:
+Sin opciones, el escaneo usa los valores por defecto de `config.yaml`. El objetivo puede ser:
 
 - `target: local` — se ejecuta totalmente offline contra el `vuln_bot` incluido (el valor por defecto; no necesita nada más).
 - `target: ollama` — necesita una instancia de [Ollama](https://ollama.com) en marcha.
@@ -80,18 +87,18 @@ Cada pieza es independiente y se comunica con las demás a través de una interf
 |---|---|---|
 | 0 | Montaje del proyecto + un bot vulnerable a propósito (`vuln_bot`) | ✅ Hecho |
 | 1 | Catálogo de ataques en YAML, validado, con injection indirecta | ✅ Hecho |
-| 2 | Adaptadores para varios proveedores (local, Ollama, API) | 🚧 En curso |
-| 3 | Runner + CLI `promptstrike scan` | Pendiente |
-| 4 | Oráculo: canary tokens + LLM como juez, con su precisión medida | Pendiente |
+| 2 | Adaptadores para varios proveedores (local, Ollama, API) | ✅ Hecho |
+| 3 | Runner + CLI `promptstrike scan` + CI | ✅ Hecho |
+| 4 | Oráculo: canary tokens + LLM como juez, con su precisión medida | 🚧 Siguiente |
 | 5 | Informe profesional mapeado al OWASP LLM Top 10 | Pendiente |
 | 6 | Defensas + ASR antes/después, comparado con Garak | Pendiente |
 | 7 | Atacante automático que reescribe los ataques fallidos (PAIR simplificado) | Pendiente |
 
 Plan completo: [ROADMAP.md](ROADMAP.md).
 
-## Stack (previsto)
+## Stack
 
-Python 3.13 · httpx · PyYAML · Pydantic · Typer · pytest · rich · ruff · Ollama
+Python 3.13 · Pydantic · PyYAML · Typer · httpx · OpenAI SDK · Ollama · pytest · GitHub Actions — previsto: rich · ruff
 
 ## Uso responsable
 
