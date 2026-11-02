@@ -23,3 +23,8 @@ CLAUDE.md
 # Ficheros del sistema operativo
 Thumbs.db
 .DS_Store
+
+# Packaging artifacts created by pip install -e .
+*.egg-info/
+build/
+dist/

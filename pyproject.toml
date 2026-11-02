@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "promptstrike"
+version = "0.1.0"
+description = "Open-source security scanner for LLM chatbots"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28",
+    "openai>=3.36",
+    "pydantic>=2.14",
+    "python-dotenv>=1.2",
+    "pyyaml>=6.0",
+    "typer>=0.27",
+]
+
+[project.scripts]
+promptstrike = "promptstrike.cli:app"
+
+[tool.setuptools]
+packages = ["promptstrike", "vuln_bot"]
