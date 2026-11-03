@@ -178,6 +178,7 @@ Cada sub-proyecto: su propio diseño, su propio ciclo. No se diseña hoy lo que 
 - **2026-10-01** — Para estar al día con el estado del arte de 2026: suite de injection indirecta en la Fase 1 (+ modo documento
   del `vuln_bot` en la Fase 2) y nueva **Fase 7: atacante automático** (PAIR simplificado). Duración: ~5,5–6,5 meses.
 - **2026-10-19** — Cloud y CI, porque las ofertas lo piden: `APITarget` contra un LLM en la nube (Fase 2; se ataca el `vuln_bot` propio con ese modelo debajo, nunca apps de terceros) y GitHub Actions con los tests (Fase 3). Sin desplegar el scanner en la nube: no lo necesita (YAGNI).
+- **2026-11-03** — **Fase 3 cerrada** (cuestionario: 6,1/10). Hecho: Runner con N repeticiones + ASR por ataque y suite, `Suite` con canary, `scan_suite`, CLI Typer `promptstrike scan --target --repeats`, `pyproject.toml` con entry point, test de integración con `CliRunner` y GitHub Actions en verde. Sin hacer: `ruff` en CI (se deja para más adelante) y la temperatura configurable. Se apuntan para la Fase 4: revisar los éxitos de llama3.2 por posibles falsos positivos del canary, `DocumentTarget` contra un modelo real (la suite indirecta sigue simulada), validar `--target` con una lista cerrada y rutas no relativas al directorio actual.
 
 ---
 
