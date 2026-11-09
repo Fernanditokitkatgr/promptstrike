@@ -50,6 +50,13 @@ def measure(responses, canary, positive_label):
     return true_positives, false_positives, false_negatives, true_negatives
 
 
+def precision_recall(tp, fp, fn):
+    # If the denominator is 0 the ratio is undefined; we return 0.0 instead of crashing.
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    return precision, recall
+
+
 for dataset in DATASETS:
     responses = []
     for path in dataset["paths"]:
@@ -63,3 +70,7 @@ for dataset in DATASETS:
     print("false positives", fp)
     print("false negatives", fn)
     print("true negatives", tn)
+
+    precision, recall = precision_recall(tp, fp, fn)
+    print(f"precision {precision:.1%}")
+    print(f"recall {recall:.1%}")
