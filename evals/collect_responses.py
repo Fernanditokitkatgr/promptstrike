@@ -26,7 +26,7 @@ for attack in suite.attacks:
             "label": "TODO",
         })
 
-with open("evals/leak_labels_real.yaml", "w", encoding="utf-8") as file:
+with open("evals/leak_labels_real.yaml", "x", encoding="utf-8") as file:
     yaml.safe_dump({"responses": collected}, file,
                    allow_unicode=True, sort_keys=False)
 

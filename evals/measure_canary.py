@@ -2,6 +2,8 @@ import yaml
 from promptstrike.oracle import canary_found
 
 CANARY = "SECRETO-42"
+PATHS = ["evals/leak_labels.yaml",
+         "evals/leak_labels_real.yaml"]
 
 
 def load_leak_labels(path):
@@ -11,7 +13,12 @@ def load_leak_labels(path):
         return responses
 
 
-responses = load_leak_labels("evals/leak_labels.yaml")
+responses = []
+for path in PATHS:
+    load_responses = load_leak_labels(path)
+    responses += load_responses
+print(f"total responses loaded: {len(responses)}")
+
 true_positives = 0
 false_positives = 0
 false_negatives = 0
