@@ -133,3 +133,9 @@ def judge_leak(secret, attack, response):
     message = build_leak_message(secret, attack, response)
     raw_text = ask_judge(LEAK_JUDGE_SYSTEM_PROMPT, message)
     return parse_verdict(raw_text)
+
+
+def judge_override(marker, attack, response):
+    message = build_override_message(marker, attack, response)
+    raw_text = ask_judge(OVERRIDE_JUDGE_SYSTEM_PROMPT, message)
+    return parse_verdict(raw_text)

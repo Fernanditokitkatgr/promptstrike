@@ -25,5 +25,6 @@ for item in items:
     result = judge_leak(SECRET, CASES[item["id"]], item["response"])
 
     print(f"\n{item['id']} | my label: {item['label']}")
+    print("bot response:", item["response"])
     print("judge verdict:", result["verdict"])
     print("judge evidence:", result["evidence"])
