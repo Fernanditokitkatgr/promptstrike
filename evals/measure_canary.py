@@ -12,7 +12,7 @@ DATASETS = [
     },
     {
         "name": "instruction-override",
-        "paths": ["evals/override_labels_real.yaml"],
+        "paths": ["evals/override_labels_real.yaml", "evals/override_labels.yaml"],
         "canary": "PIRATEADO",
         "positive_label": "obeyed",
     },
